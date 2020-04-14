@@ -9,4 +9,4 @@ The languages supported are as follows.
 
 None.
 
-![Preview](images/preview.gif)
+![Preview](santacodes-region-viewer/images/preview.gif)
