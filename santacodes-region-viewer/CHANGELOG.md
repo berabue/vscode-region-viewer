@@ -1,9 +1,23 @@
 # Change Log
 
-All notable changes to the "santacodes-region-viewer" extension will be documented in this file.
+All notable changes to this project will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Initial release
+## [0.0.4] - 2020-04-15
+### Added
+ - Add preview image
+
+## [0.0.3] - 2020-04-14
+### Changed
+ - Change display name
+
+## [0.0.2] - 2020-04-14
+### Added
+ - Add icon
+
+## [0.0.1] - 2020-04-14
+### Added
+ - Initial release
