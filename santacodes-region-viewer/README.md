@@ -10,6 +10,9 @@ The languages supported are as follows.
 None.
 
 ## Release Notes
+### 0.0.3
+ - Change display name
+
 ### 0.0.2
  - Add icon
 
