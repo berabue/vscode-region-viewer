@@ -10,5 +10,8 @@ The languages supported are as follows.
 None.
 
 ## Release Notes
+### 0.0.2
+ - Add icon
+
 ### 0.0.1
  - Initial release

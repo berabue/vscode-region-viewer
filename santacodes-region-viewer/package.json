@@ -1,10 +1,20 @@
 {
 	"name": "santacodes-region-viewer",
-	"displayName": "Region-Viewer",
+	"icon": "images/icon.png",
+	"publisher": "SantaCodes",
+	"displayName": "Region Viewer",
 	"description": "This extension allows you to print a list of regions in a document and select a region to navigate to the document's location.",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.44.0"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": "https://github.com/berabue/vscode-region-viewer.git"
+	},
+	"bugs": {
+	  "url": "https://github.com/berabue/vscode-region-viewer/issues",
+	  "email": "berabue@gmail.com"
 	},
 	"categories": [
 		"Other"
@@ -24,7 +34,7 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "tsc",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
