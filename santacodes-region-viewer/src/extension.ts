@@ -3,7 +3,7 @@ import { RegionTreeDataProvider } from './regionTreeDataProvider';
 
 export function activate(context: vscode.ExtensionContext) {
 	const regionTreeDataProvider = new RegionTreeDataProvider();
-	context.subscriptions.push(vscode.window.registerTreeDataProvider('regionViwer', regionTreeDataProvider));
+	context.subscriptions.push(vscode.window.registerTreeDataProvider('regionViewer', regionTreeDataProvider));
 
 	// If a TreeView item is selected, the cursor moves to that location.
 	context.subscriptions.push(vscode.commands.registerCommand('region-viewer.reveal', (line) =>

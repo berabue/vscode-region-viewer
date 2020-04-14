@@ -4,7 +4,7 @@
 	"publisher": "SantaCodes",
 	"displayName": "Region Viewer",
 	"description": "This extension allows you to print a list of regions in a document and select a region to navigate to the document's location.",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"engines": {
 		"vscode": "^1.44.0"
 	},
@@ -20,15 +20,15 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:regionViwer"
+		"onView:regionViewer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"views": {
 		  "explorer": [
 			{
-			  "id": "regionViwer",
-			  "name": "Region Viwer"
+			  "id": "regionViewer",
+			  "name": "Region Viewer"
 			}
 		  ]
 		}
