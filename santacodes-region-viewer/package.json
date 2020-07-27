@@ -29,7 +29,8 @@
 			{
 			  "id": "regionViewer",
 			  "name": "Region Viewer",
-			  "icon": "./images/hashtag.svg"
+              "icon": "./images/hashtag.svg",
+              "contextualTitle": "Region Viewer"
 			}
 		  ]
 		}
