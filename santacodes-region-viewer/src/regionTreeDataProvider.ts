@@ -39,26 +39,26 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 			if (text == undefined)
 				continue;
 
-            // Region markers as they're documented in:
-            // https://code.visualstudio.com/updates/v1_17#_folding-regions
-            const regionMarkers = [
-                "//#region",
-                "//region",
-                "#region",
-                "#pragma region",
-                "#Region"
-            ]
+			// Region markers as they're documented in:
+			// https://code.visualstudio.com/updates/v1_17#_folding-regions
+			const regionMarkers = [
+				"//#region",
+				"//region",
+				"#region",
+				"#pragma region",
+				"#Region"
+			]
 
-            for (const marker of regionMarkers) {
-                // Check if line starts with on of the region markers
-                if(text.trim().startsWith(marker)) {
-                    let name = text.replace(marker, "").trim(); // remove first marker
-                    if (name.length === 0) name = "region"; // ensure name is not empty
-                    name = "# " + name; // prepend with the # symbol
+			for (const marker of regionMarkers) {
+				// Check if line starts with on of the region markers
+				if(text.trim().startsWith(marker)) {
+					let name = text.replace(marker, "").trim(); // remove first marker
+					if (name.length === 0) name = "region"; // ensure name is not empty
+					name = "# " + name; // prepend with the # symbol
 
-                    treeRoot.push(new Dependency(name, i, vscode.TreeItemCollapsibleState.None));
-                }
-            }
+					treeRoot.push(new Dependency(name, i, vscode.TreeItemCollapsibleState.None));
+				}
+			}
 		}
 		this.data = treeRoot;
 	}
