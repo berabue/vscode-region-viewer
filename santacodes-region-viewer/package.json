@@ -28,7 +28,8 @@
 		  "explorer": [
 			{
 			  "id": "regionViewer",
-			  "name": "Region Viewer"
+			  "name": "Region Viewer",
+              "icon": "./images/hashtag.svg"
 			}
 		  ]
 		}
