@@ -7,11 +7,11 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 	private data?: Dependency[];
 
 	constructor() {
-		this.findRegion();
+		this.findRegions();
 	}
 
 	refresh(): void {
-		this.findRegion();
+		this.findRegions();
 		this._onDidChangeTreeData.fire();
 	}
   
@@ -28,7 +28,7 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 		return element.children;
 	}
 
-	private findRegion(): void {
+	private findRegions(): void {
 		const document = vscode.window.activeTextEditor?.document;
 		if (document == undefined)
 			return
@@ -64,36 +64,44 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 				"#End Region"
 			]
 
+			const trimmedText = text.trim();
+
 			// Region start
 			for (const marker of startMarkers) {
-				if(text.trim().startsWith(marker)) {
+				if(trimmedText.startsWith(marker)) {
 					const name = this.getRegionName(text, marker);
 					const dep = new Dependency(name, i);
 
+					// If we have a parent, register as their child
 					if (regionStack.length > 0) {
 						let parentDep = regionStack[regionStack.length - 1];
 						parentDep.children?.push(dep);
-						parentDep.collapsibleState =  vscode.TreeItemCollapsibleState.Collapsed;	// Possibly optimise
+						parentDep.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
 					}
 
 					regionStack.push(dep);
+					break;
 				}
 			}
 
 			// Region end
 			for (const marker of endMarkers) {
-				if(text.trim().startsWith(marker)) {
+				if(trimmedText.startsWith(marker)) {
+					// If we just ended a root region,
+					// add it to treeRoot
 					if (regionStack.length === 1) {
 						treeRoot.push(regionStack[0]);
 					}
-
+					
 					regionStack.pop();
+					break;
 				}
 			}
 		}
 
-		// Resolve remaining stack entries
-		// These regions were opened but never closed
+		// If the region stack isn't empty, we didn't properly
+		// close all regions, add the remaining root region to
+		// treeRoot anyways
 		if (regionStack.length > 0) {
 			treeRoot.push(regionStack[0]);
 		}
@@ -102,11 +110,11 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 	}
 
 	private getRegionName(line: string, marker: string): string {
-		// remove first marker
+		// Remove first marker
 		let name = line.replace(marker, "").trim();
-		// ensure name is not empty
+		// Ensure name is not empty
 		if (name.length === 0) name = "region";
-		// prepend with the # symbol
+		// Prepend with the # symbol
 		return "# " + name;
 	}
 }
