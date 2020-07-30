@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.1.2] - 2020-07-31
+### Added
+ - Add on activity bar
+ - Add supported languages
+	- TypeScript/JavaScript: `//#region` and `//region`
+	- C#: `#region`
+	- C/C++: `#pragma region`
+	- F#: `//#region`
+	- PowerShell: `#region`
+	- VB: `#Region`
+
 ## [0.0.7] - 2020-04-15
 ### Fixed
  - Modify typos
