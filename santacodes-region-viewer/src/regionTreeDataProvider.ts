@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-
+import * as markers from './markers.json';
 
 export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependency> {
 	private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined> = new vscode.EventEmitter<Dependency | undefined>();
@@ -33,43 +33,35 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 		if (document == undefined)
 			return
 
-		let treeRoot = [];
-		let regionStack = [];
+		let treeRoot: Dependency[] = [];
+		let regionStack: Dependency[] = [];
 
-		for (let i = 0; i < document.lineCount; i++) {
-			const line = document.lineAt(i);
-			if (line == undefined)
-				continue;
+		// console.log(new RegExp(markers.start.csharp).test("#region"));
 
-			let range = new vscode.Range(line.range.start, line.range.end);
-			let text = document.getText(range);
-			if (text == undefined)
-				continue;
+		if (document.languageId in markers)
+		{
+			const indexableMarkings: {[language: string]: { "start": string, "end": string}} = markers;
 
-			// Region markers as they're documented in:
-			// https://code.visualstudio.com/updates/v1_17#_folding-regions
-			const startMarkers = [
-				"//#region",
-				"//region",
-				"#region",
-				"#pragma region",
-				"#Region"
-			]
+			const startRegExp = new RegExp(indexableMarkings[document.languageId].start);
+			const endRegExp = new RegExp(indexableMarkings[document.languageId].end);
 
-			const endMarkers = [
-				"//#endregion",
-				"//endregion",
-				"#endregion",
-				"#pragma endregion",
-				"#End Region"
-			]
-
-			const trimmedText = text.trim();
-
-			// Region start
-			for (const marker of startMarkers) {
-				if(trimmedText.startsWith(marker)) {
-					const name = this.getRegionName(text, marker);
+			const isRegionStart = (t: string) => startRegExp.test(t);
+			const isRegionEnd = (t: string) => endRegExp.test(t);
+			
+			for (let i = 0; i < document.lineCount; i++) {
+				const line = document.lineAt(i);
+				if (line == undefined)
+					continue;
+	
+				let range = new vscode.Range(line.range.start, line.range.end);
+				let text = document.getText(range);
+				if (text == undefined)
+					continue;
+	
+				// const trimmedText = text.trim();
+	
+				if (isRegionStart(text)) {
+					const name = text;	// TODO use regex groups
 					const dep = new Dependency(name, i);
 
 					// If we have a parent, register as their child
@@ -80,43 +72,58 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 					}
 
 					regionStack.push(dep);
-					break;
 				}
-			}
-
-			// Region end
-			for (const marker of endMarkers) {
-				if(trimmedText.startsWith(marker)) {
-					// If we just ended a root region,
-					// add it to treeRoot
+				else if (isRegionEnd(text)) {
+					// If we just ended a root region, add it to treeRoot
 					if (regionStack.length === 1) {
 						treeRoot.push(regionStack[0]);
 					}
 					
 					regionStack.pop();
-					break;
 				}
 			}
+	
+			// If the region stack isn't empty, we didn't properly  close all
+			// regions, add the remaining root region to treeRoot anyways
+			if (regionStack.length > 0) {
+				treeRoot.push(regionStack[0]);
+			}
+	
+			this.data = treeRoot;
 		}
-
-		// If the region stack isn't empty, we didn't properly
-		// close all regions, add the remaining root region to
-		// treeRoot anyways
-		if (regionStack.length > 0) {
-			treeRoot.push(regionStack[0]);
-		}
-
-		this.data = treeRoot;
 	}
 
-	private getRegionName(line: string, marker: string): string {
-		// Remove first marker
-		let name = line.replace(marker, "").trim();
-		// Ensure name is not empty
-		if (name.length === 0) name = "region";
-		// Prepend with the # symbol
-		return "# " + name;
-	}
+	// More concise way to handle / recognize nesting?
+	// https://github.com/microsoft/vscode/blob/f74e473238aca7b79c08be761d99a0232838ca4c/extensions/markdown-language-features/src/features/foldingProvider.ts#L39-L57
+
+	// private async getRegions(document: vscode.TextDocument): Promise<vscode.FoldingRange[]> {
+	// 	const tokens = await this.engine.parse(document);
+	// 	const regionMarkers = tokens.filter(isRegionMarker)
+	// 		.map(token => ({ line: token.map[0], isStart: isStartRegion(token.content) }));
+
+	// 	const nestingStack: { line: number, isStart: boolean }[] = [];
+	// 	return regionMarkers
+	// 		.map(marker => {
+	// 			if (marker.isStart) {
+	// 				nestingStack.push(marker);
+	// 			} else if (nestingStack.length && nestingStack[nestingStack.length - 1].isStart) {
+	// 				return new vscode.FoldingRange(nestingStack.pop()!.line, marker.line, vscode.FoldingRangeKind.Region);
+	// 			} else {
+	// 				// noop: invalid nesting (i.e. [end, start] or [start, end, end])
+	// 			}
+	// 			return null;
+	// 		})
+	// 		.filter((region: vscode.FoldingRange | null): region is vscode.FoldingRange => !!region);
+	// }
+
+	// private getRegionName(line: string, marker: string): string {
+	// 	// Remove first marker
+	// 	let name = line.replace(marker, "").trim();
+	// 	// Ensure name is not empty
+	// 	if (name.length === 0) name = "region";
+	// 	// Prepend with the # symbol
+	// 	return "# " + name;
+	// }
 }
 
 class Dependency extends vscode.TreeItem {
