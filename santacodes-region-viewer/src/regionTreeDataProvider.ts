@@ -36,8 +36,6 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 		let treeRoot: Dependency[] = [];
 		let regionStack: Dependency[] = [];
 
-		// console.log(new RegExp(markers.start.csharp).test("#region"));
-
 		if (document.languageId in markers)
 		{
 			const indexableMarkings: {[language: string]: { "start": string, "end": string}} = markers;
@@ -57,8 +55,6 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 				let text = document.getText(range);
 				if (text == undefined)
 					continue;
-	
-				// const trimmedText = text.trim();
 	
 				if (isRegionStart(text)) {
 					const name = text;	// TODO use regex groups
@@ -92,38 +88,6 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 			this.data = treeRoot;
 		}
 	}
-
-	// More concise way to handle / recognize nesting?
-	// https://github.com/microsoft/vscode/blob/f74e473238aca7b79c08be761d99a0232838ca4c/extensions/markdown-language-features/src/features/foldingProvider.ts#L39-L57
-
-	// private async getRegions(document: vscode.TextDocument): Promise<vscode.FoldingRange[]> {
-	// 	const tokens = await this.engine.parse(document);
-	// 	const regionMarkers = tokens.filter(isRegionMarker)
-	// 		.map(token => ({ line: token.map[0], isStart: isStartRegion(token.content) }));
-
-	// 	const nestingStack: { line: number, isStart: boolean }[] = [];
-	// 	return regionMarkers
-	// 		.map(marker => {
-	// 			if (marker.isStart) {
-	// 				nestingStack.push(marker);
-	// 			} else if (nestingStack.length && nestingStack[nestingStack.length - 1].isStart) {
-	// 				return new vscode.FoldingRange(nestingStack.pop()!.line, marker.line, vscode.FoldingRangeKind.Region);
-	// 			} else {
-	// 				// noop: invalid nesting (i.e. [end, start] or [start, end, end])
-	// 			}
-	// 			return null;
-	// 		})
-	// 		.filter((region: vscode.FoldingRange | null): region is vscode.FoldingRange => !!region);
-	// }
-
-	// private getRegionName(line: string, marker: string): string {
-	// 	// Remove first marker
-	// 	let name = line.replace(marker, "").trim();
-	// 	// Ensure name is not empty
-	// 	if (name.length === 0) name = "region";
-	// 	// Prepend with the # symbol
-	// 	return "# " + name;
-	// }
 }
 
 class Dependency extends vscode.TreeItem {
