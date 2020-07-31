@@ -38,10 +38,12 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 
 		if (document.languageId in markers)
 		{
-			const indexableMarkings: {[language: string]: { "start": string, "end": string}} = markers;
+			// Create Generally Typed Markers, so that we can
+			// index them using languageID strings
+			const GTMarkers: {[language: string]: { "start": string, "end": string}} = markers;
 
-			const startRegExp = new RegExp(indexableMarkings[document.languageId].start);
-			const endRegExp = new RegExp(indexableMarkings[document.languageId].end);
+			const startRegExp = new RegExp(GTMarkers[document.languageId].start);
+			const endRegExp = new RegExp(GTMarkers[document.languageId].end);
 
 			const isRegionStart = (t: string) => startRegExp.test(t);
 			const isRegionEnd = (t: string) => endRegExp.test(t);
