@@ -4,19 +4,19 @@
 		"end": "^\\s*(::\\s*|REM\\s+)#endregion"
 	},
 	"coffeescript": {
-		"start": "^\\s*#region\\b",
+		"start": "^\\s*#region\\b(?<name>.*)",
 		"end": "^\\s*#endregion\\b"
 	},
 	"cpp": {
-		"start": "^\\s*#pragma\\s+region\\b",
+		"start": "^\\s*#pragma\\s+region\\b(?<name>.*)",
 		"end": "^\\s*#pragma\\s+endregion\\b"
 	},
 	"csharp": {
-		"start": "^\\s*#region\\b",
+		"start": "^\\s*#region\\b(?<name>.*)",
 		"end": "^\\s*#endregion\\b"
 	},
 	"css": {
-		"start": "^\\s*\\/\\*\\s*#region\\b\\s*(.*?)\\s*\\*\\/",
+		"start": "^\\s*\\/\\*\\s*#region\\b(?<name>.*)\\s*\\*\\/",
 		"end": "^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/"
 	},
 	"fsharp": {
@@ -24,11 +24,11 @@
 		"end": "^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)"
 	},
 	"go": {
-		"start": "^\\s*//\\s*#?region\\b",
+		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
 	"html": {
-		"start": "^\\s*<!--\\s*#region\\b.*-->",
+		"start": "^\\s*<!--\\s*#region\\b(?<name>.*)-->",
 		"end": "^\\s*<!--\\s*#endregion\\b.*-->"
 	},
 	"java": {
@@ -36,19 +36,19 @@
 		"end": "^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))"
 	},
 	"javascript": {
-		"start": "^\\s*//\\s*#?region\\b",
+		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
 	"less": {
-		"start": "^\\s*\\/\\*\\s*#region\\b\\s*(.*?)\\s*\\*\\/",
+		"start": "^\\s*\\/\\*\\s*#region\\b(?<name>.*)\\s*\\*\\/",
 		"end": "^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/"
 	},
 	"markdown": {
-		"start": "^\\s*<!--\\s*#?region\\b.*-->",
+		"start": "^\\s*<!--\\s*#?region\\b(?<name>.*)-->",
 		"end": "^\\s*<!--\\s*#?endregion\\b.*-->"
 	},
 	"php": {
-		"start": "^\\s*(#|\/\/)region\\b",
+		"start": "^\\s*(#|\/\/)region\\b(?<name>.*)",
 		"end": "^\\s*(#|\/\/)endregion\\b"
 	},
 	"perl": {
@@ -56,27 +56,27 @@
 		"end": "^(?:(?:=cut\\s*$)|(?:\\s*#endregion\\b))"
 	},
 	"powershell": {
-		"start": "^\\s*#[rR]egion\\b",
+		"start": "^\\s*#[rR]egion\\b(?<name>.*)",
 		"end": "^\\s*#[eE]nd[rR]egion\\b"
 	},
 	"python": {
-		"start": "^\\s*#\\s*region\\b",
+		"start": "^\\s*#\\s*region\\b(?<name>.*)",
 		"end": "^\\s*#\\s*endregion\\b"
 	},
 	"rust": {
-		"start": "^\\s*//\\s*#?region\\b",
+		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
 	"scss": {
-		"start": "^\\s*\\/\\*\\s*#region\\b\\s*(.*?)\\s*\\*\\/",
+		"start": "^\\s*\\/\\*\\s*#region\\b(?<name>.*)\\s*\\*\\/",
 		"end": "^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/"
 	},
 	"shellscript": {
-		"start": "^\\s*#\\s*#?region\\b.*",
+		"start": "^\\s*#\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*#\\s*#?endregion\\b.*"
 	},
 	"typescript": {
-		"start": "^\\s*//\\s*#?region\\b",
+		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
 	"vb": {
@@ -84,11 +84,11 @@
 		"end": "^\\s*#End Region\\b"
 	},
 	"xml": {
-		"start": "^\\s*<!--\\s*#region\\b.*-->",
+		"start": "^\\s*<!--\\s*#region\\b(?<name>.*)-->",
 		"end": "^\\s*<!--\\s*#endregion\\b.*-->"
 	},
 	"yaml": {
-		"start": "^\\s*#\\s*region\\b",
+		"start": "^\\s*#\\s*region\\b(?<name>.*)",
 		"end": "^\\s*#\\s*endregion\\b"
 	}
 }

@@ -59,7 +59,18 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 					continue;
 	
 				if (isRegionStart(text)) {
-					const name = text;	// TODO use regex groups
+					const result = startRegExp.exec(text);
+
+					let name: string;
+					if (result && result.groups && "name" in result.groups) {
+						name = result.groups["name"].trim();
+						if (name.length === 0) name = "region";
+						name = "# " + name;
+					}
+					else {
+						name = text;
+					}
+					
 					const dep = new Dependency(name, i);
 
 					// If we have a parent, register as their child
