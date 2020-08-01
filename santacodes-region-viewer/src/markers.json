@@ -1,6 +1,6 @@
 {
 	"bat": {
-		"start": "^\\s*(::\\s*|REM\\s+)#region",
+		"start": "^\\s*(::\\s*|REM\\s+)#region(?<name>.*)",
 		"end": "^\\s*(::\\s*|REM\\s+)#endregion"
 	},
 	"coffeescript": {
