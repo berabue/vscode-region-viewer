@@ -52,7 +52,7 @@
 		"end": "^\\s*(#|\/\/)endregion\\b"
 	},
 	"perl": {
-		"start": "^\\s*#region\\b(?<nameAlt>.*)",
+		"start": "^\\s*#region\\b(?<name>.*)",
 		"end": "^\\s*#endregion\\b"
 	},
 	"powershell": {
