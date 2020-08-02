@@ -52,8 +52,8 @@
 		"end": "^\\s*(#|\/\/)endregion\\b"
 	},
 	"perl": {
-		"start": "^(?:(?:=pod(?<name>.*)$)|(?:\\s*#region\\b(?<nameAlt>.*)))",
-		"end": "^(?:(?:=cut\\s*$)|(?:\\s*#endregion\\b))"
+		"start": "^\\s*#region\\b(?<nameAlt>.*)",
+		"end": "^\\s*#endregion\\b"
 	},
 	"powershell": {
 		"start": "^\\s*#[rR]egion\\b(?<name>.*)",
