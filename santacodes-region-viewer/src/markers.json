@@ -20,7 +20,7 @@
 		"end": "^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/"
 	},
 	"fsharp": {
-		"start": "^\\s*//\\s*#region\\b|^\\s*\\(\\*\\s*#region(.*)\\*\\)",
+		"start": "^\\s*//\\s*#region\\b(?<name>.*)|^\\s*\\(\\*\\s*#region(?<nameAlt>.*)\\*\\)",
 		"end": "^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)"
 	},
 	"go": {
@@ -32,8 +32,8 @@
 		"end": "^\\s*<!--\\s*#endregion\\b.*-->"
 	},
 	"java": {
-		"start": "^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))",
-		"end": "^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))"
+		"start": "^\\s*//\\s*(?:(?:#?region\\b(?<name>.*))",
+		"end": "^\\s*//\\s*(?:(?:#?endregion\\b)"
 	},
 	"javascript": {
 		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
@@ -52,7 +52,7 @@
 		"end": "^\\s*(#|\/\/)endregion\\b"
 	},
 	"perl": {
-		"start": "^(?:(?:=pod\\s*$)|(?:\\s*#region\\b))",
+		"start": "^(?:(?:=pod(?<name>.*)$)|(?:\\s*#region\\b(?<nameAlt>.*)))",
 		"end": "^(?:(?:=cut\\s*$)|(?:\\s*#endregion\\b))"
 	},
 	"powershell": {
@@ -80,7 +80,7 @@
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
 	"vb": {
-		"start": "^\\s*#Region\\b",
+		"start": "^\\s*#Region\\b\\s*\"(?<name>.*)\"",
 		"end": "^\\s*#End Region\\b"
 	},
 	"xml": {

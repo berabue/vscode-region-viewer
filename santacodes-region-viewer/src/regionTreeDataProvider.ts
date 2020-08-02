@@ -59,18 +59,8 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 					continue;
 	
 				if (isRegionStart(text)) {
-					const result = startRegExp.exec(text);
-
-					let name: string;
-					if (result && result.groups && "name" in result.groups) {
-						name = result.groups["name"].trim();
-						if (name.length === 0) name = "region";
-						name = "# " + name;
-					}
-					else {
-						name = text;
-					}
-					
+					const regexResult = startRegExp.exec(text);
+					const name = this.getName(text, regexResult);
 					const dep = new Dependency(name, i);
 
 					// If we have a parent, register as their child
@@ -92,13 +82,36 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 				}
 			}
 	
-			// If the region stack isn't empty, we didn't properly  close all
-			// regions, add the remaining root region to treeRoot anyways
+			// If the region stack isn't empty, we didn't properly close all regions
 			if (regionStack.length > 0) {
 				treeRoot.push(regionStack[0]);
 			}
 	
 			this.data = treeRoot;
+		}
+	}
+
+	private getName(input: string, match: RegExpExecArray|null): string {
+		if (match && match.groups) {
+			const groupIDs = [
+				"name",
+				"nameAlt"
+			];
+			
+			// Look into capture groups
+			for (const groupID of groupIDs) {
+				if (groupID in match.groups && match.groups[groupID] !== undefined) {
+					const name = match.groups[groupID].trim();
+					if (name.length > 0) return "# " + name;
+				}
+			}
+	
+			// Empty region name
+			return "# region";
+		}
+		else {
+			// Regex error or no groups found
+			return input;
 		}
 	}
 }
