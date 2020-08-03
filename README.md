@@ -14,4 +14,4 @@ The languages supported are as follows.
 
 None.
 
-![Preview](santacodes-region-viewer/images/preview.gif)
+![Preview](images/preview.gif)
