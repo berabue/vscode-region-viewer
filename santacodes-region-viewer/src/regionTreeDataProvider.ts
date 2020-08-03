@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-
+import * as markers from './markers.json';
 
 export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependency> {
 	private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined> = new vscode.EventEmitter<Dependency | undefined>();
@@ -7,11 +7,11 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 	private data?: Dependency[];
 
 	constructor() {
-		this.findRegion();
+		this.findRegions();
 	}
 
 	refresh(): void {
-		this.findRegion();
+		this.findRegions();
 		this._onDidChangeTreeData.fire();
 	}
   
@@ -19,54 +19,110 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 		return element;
 	}
 
-	getChildren(element?: Dependency): Thenable<Dependency[]> {
-		return Promise.resolve(this.data!);
+	getChildren(element?: Dependency): vscode.ProviderResult<Dependency[]> {
+		
+		if (element === undefined) {
+			return this.data;
+		}
+
+		return element.children;
 	}
 
-	private findRegion(): void {
+	private findRegions(): void {
 		const document = vscode.window.activeTextEditor?.document;
 		if (document == undefined)
 			return
 
-		let treeRoot = [];
-		for (let i = 0; i < document.lineCount; i++) {
-			const line = document.lineAt(i);
-			if (line == undefined)
-				continue;
+		let treeRoot: Dependency[] = [];
+		let regionStack: Dependency[] = [];
 
-			let range = new vscode.Range(line.range.start, line.range.end);
-			let text = document.getText(range);
-			if (text == undefined)
-				continue;
+		if (document.languageId in markers)
+		{
+			// Create Generally Typed Markers, so that we can
+			// index them using languageID strings
+			const GTMarkers: {[language: string]: { "start": string, "end": string}} = markers;
 
-			// Region markers as they're documented in:
-			// https://code.visualstudio.com/updates/v1_17#_folding-regions
-			const regionMarkers = [
-				"//#region",
-				"//region",
-				"#region",
-				"#pragma region",
-				"#Region"
-			]
+			const startRegExp = new RegExp(GTMarkers[document.languageId].start);
+			const endRegExp = new RegExp(GTMarkers[document.languageId].end);
 
-			for (const marker of regionMarkers) {
-				// Check if line starts with on of the region markers
-				if(text.trim().startsWith(marker)) {
-					let name = text.replace(marker, "").trim(); // remove first marker
-					if (name.length === 0) name = "region"; // ensure name is not empty
-					name = "# " + name; // prepend with the # symbol
+			const isRegionStart = (t: string) => startRegExp.test(t);
+			const isRegionEnd = (t: string) => endRegExp.test(t);
+			
+			for (let i = 0; i < document.lineCount; i++) {
+				const line = document.lineAt(i);
+				if (line == undefined)
+					continue;
+	
+				let range = new vscode.Range(line.range.start, line.range.end);
+				let text = document.getText(range);
+				if (text == undefined)
+					continue;
+	
+				if (isRegionStart(text)) {
+					const regexResult = startRegExp.exec(text);
+					const name = this.getName(text, regexResult);
+					const dep = new Dependency(name, i);
 
-					treeRoot.push(new Dependency(name, i, vscode.TreeItemCollapsibleState.None));
+					// If we have a parent, register as their child
+					if (regionStack.length > 0) {
+						let parentDep = regionStack[regionStack.length - 1];
+						parentDep.children?.push(dep);
+						parentDep.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
+					}
+
+					regionStack.push(dep);
+				}
+				else if (isRegionEnd(text)) {
+					// If we just ended a root region, add it to treeRoot
+					if (regionStack.length === 1) {
+						treeRoot.push(regionStack[0]);
+					}
+					
+					regionStack.pop();
 				}
 			}
+	
+			// If the region stack isn't empty, we didn't properly close all regions
+			if (regionStack.length > 0) {
+				treeRoot.push(regionStack[0]);
+			}
+	
+			this.data = treeRoot;
 		}
-		this.data = treeRoot;
+	}
+
+	private getName(input: string, match: RegExpExecArray|null): string {
+		if (match && match.groups) {
+			const groupIDs = [
+				"name",
+				"nameAlt"
+			];
+			
+			// Look into capture groups
+			for (const groupID of groupIDs) {
+				if (groupID in match.groups && match.groups[groupID] !== undefined) {
+					const name = match.groups[groupID].trim();
+					if (name.length > 0) return "# " + name;
+				}
+			}
+	
+			// Empty region name
+			return "# region";
+		}
+		else {
+			// Regex error or no groups found
+			return input;
+		}
 	}
 }
 
 class Dependency extends vscode.TreeItem {
-	constructor(label: string, line: number, collapsibleState: vscode.TreeItemCollapsibleState) {
-		super(label, collapsibleState);
+
+	children: Dependency[] = [];
+
+	constructor(label: string, line: number) {
+		super(label, vscode.TreeItemCollapsibleState.None);
+
 		this.command = {
 			title: '',
 			command: 'region-viewer.reveal',
