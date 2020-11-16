@@ -7,6 +7,10 @@
 		"start": "^\\s*#region\\b(?<name>.*)",
 		"end": "^\\s*#endregion\\b"
 	},
+	"c": {
+		"start": "^\\s*#pragma\\s+region\\b(?<name>.*)",
+		"end": "^\\s*#pragma\\s+endregion\\b"
+	},
 	"cpp": {
 		"start": "^\\s*#pragma\\s+region\\b(?<name>.*)",
 		"end": "^\\s*#pragma\\s+endregion\\b"
