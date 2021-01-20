@@ -94,5 +94,9 @@
 	"yaml": {
 		"start": "^\\s*#\\s*region\\b(?<name>.*)",
 		"end": "^\\s*#\\s*endregion\\b"
+	},
+	"delphi": {
+		"start": "^\\s*{\\s*\\$region\\b( '(?<name>.*?)')?}",
+		"end": "^\\s*{\\s*\\$endregion\\b}"
 	}
 }
