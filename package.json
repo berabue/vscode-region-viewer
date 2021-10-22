@@ -9,12 +9,12 @@
 		"vscode": "^1.44.0"
 	},
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/berabue/vscode-region-viewer.git"
+		"type": "git",
+		"url": "https://github.com/berabue/vscode-region-viewer.git"
 	},
 	"bugs": {
-	  "url": "https://github.com/berabue/vscode-region-viewer/issues",
-	  "email": "berabue@gmail.com"
+		"url": "https://github.com/berabue/vscode-region-viewer/issues",
+		"email": "berabue@gmail.com"
 	},
 	"categories": [
 		"Other"
@@ -25,14 +25,31 @@
 	"main": "./out/extension.js",
 	"contributes": {
 		"views": {
-		  "explorer": [
+			"explorer": [
+				{
+					"id": "regionViewer",
+					"name": "Region Viewer",
+					"icon": "./images/hashtag.svg",
+					"contextualTitle": "Region Viewer"
+				}
+			]
+		},
+		"commands": [
 			{
-			  "id": "regionViewer",
-			  "name": "Region Viewer",
-			  "icon": "./images/hashtag.svg",
-			  "contextualTitle": "Region Viewer"
+				"command": "region-viewer.activeDocumentLanguageId",
+				"title": "Active Document Language ID",
+				"category": "Region Viewer",
+				"icon": "$(extensions-info-message)"
 			}
-		  ]
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "region-viewer.activeDocumentLanguageId",
+					"when": "view == regionViewer",
+					"group": "navigation"
+				}
+			]
 		}
 	},
 	"scripts": {
