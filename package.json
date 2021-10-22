@@ -24,6 +24,17 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration": [
+			{
+				"title": "Region Viewer",
+				"properties": {
+					"region-viewer.markers-overrides": {
+						"type": "object",
+						"scope": "application"
+					}
+				}
+			}
+		],
 		"views": {
 			"explorer": [
 				{

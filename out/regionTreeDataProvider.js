@@ -28,12 +28,22 @@ class RegionTreeDataProvider {
             return;
         let treeRoot = [];
         let regionStack = [];
-        if (document.languageId in markers) {
+        let markersOverrides;
+        let configuration = vscode.workspace.getConfiguration();
+        try {
+            markersOverrides = configuration.get('region-viewer.markers-overrides');
+        }
+        catch (error) {
+            markersOverrides = undefined;
+            vscode.window.showWarningMessage('Failed to parse markers overrides for Region Viewer. Check documentation for correct format');
+        }
+        if (document.languageId in (markersOverrides !== null && markersOverrides !== void 0 ? markersOverrides : {}) || document.languageId in markers) {
+            const GTMarkersOverride = markersOverrides;
             // Create Generally Typed Markers, so that we can
             // index them using languageID strings
             const GTMarkers = markers;
-            const startRegExp = new RegExp(GTMarkers[document.languageId].start);
-            const endRegExp = new RegExp(GTMarkers[document.languageId].end);
+            const startRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).start);
+            const endRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).end);
             const isRegionStart = (t) => startRegExp.test(t);
             const isRegionEnd = (t) => endRegExp.test(t);
             for (let i = 0; i < document.lineCount; i++) {
