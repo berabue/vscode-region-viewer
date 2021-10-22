@@ -7,6 +7,10 @@
         "start": "^\\s*#region\\b(?<name>.*)",
         "end": "^\\s*#endregion\\b"
     },
+    "c": {
+        "start": "^\\s*#pragma\\s+region\\b(?<name>.*)",
+        "end": "^\\s*#pragma\\s+endregion\\b"
+    },
     "cpp": {
         "start": "^\\s*#pragma\\s+region\\b(?<name>.*)",
         "end": "^\\s*#pragma\\s+endregion\\b"
@@ -36,6 +40,10 @@
         "end": "^\\s*//\\s*(?:(?:#?endregion\\b)"
     },
     "javascript": {
+        "start": "^\\s*//\\s*#?region\\b(?<name>.*)",
+        "end": "^\\s*//\\s*#?endregion\\b"
+    },
+    "dart": {
         "start": "^\\s*//\\s*#?region\\b(?<name>.*)",
         "end": "^\\s*//\\s*#?endregion\\b"
     },
@@ -90,5 +98,9 @@
     "yaml": {
         "start": "^\\s*#\\s*region\\b(?<name>.*)",
         "end": "^\\s*#\\s*endregion\\b"
+    },
+    "delphi": {
+        "start": "^\\s*{\\s*\\$region\\b( '(?<name>.*?)')?}",
+        "end": "^\\s*{\\s*\\$endregion\\b}"
     }
 }
