@@ -43,6 +43,10 @@
 		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
+	"javascriptreact": {
+		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
+		"end": "^\\s*//\\s*#?endregion\\b"
+	},
 	"less": {
 		"start": "^\\s*\\/\\*\\s*#region\\b(?<name>.*)\\s*\\*\\/",
 		"end": "^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/"
@@ -80,6 +84,10 @@
 		"end": "^\\s*#\\s*#?endregion\\b.*"
 	},
 	"typescript": {
+		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
+		"end": "^\\s*//\\s*#?endregion\\b"
+	},
+	"typescriptreact": {
 		"start": "^\\s*//\\s*#?region\\b(?<name>.*)",
 		"end": "^\\s*//\\s*#?endregion\\b"
 	},
