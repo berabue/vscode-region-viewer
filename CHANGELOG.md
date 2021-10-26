@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+ None
+
+## [1.1.1] - 2021-10-27
+### Added
+ - Added button to check language name for document
+ - Added override ability for markers
+ - Add supported languages
+	- Delphi: `{$region}`
+	- Javascriptreact: `//#region` and `//region`
+	- Typescriptreact: `//#region` and `//region`
 
 ## [1.0.0] - 2020-08-03
 ### Added
