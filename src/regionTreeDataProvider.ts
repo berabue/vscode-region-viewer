@@ -55,8 +55,8 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 			// index them using languageID strings
 			const GTMarkers: {[language: string]: { "start": string, "end": string}} = markers;
 
-			const startRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).start);
-			const endRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).end);
+			const startRegExp = new RegExp(((GTMarkersOverride === undefined || !(document.languageId in GTMarkersOverride)) ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).start);
+			const endRegExp = new RegExp(((GTMarkersOverride === undefined || !(document.languageId in GTMarkersOverride)) ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).end);
 
 			const isRegionStart = (t: string) => startRegExp.test(t);
 			const isRegionEnd = (t: string) => endRegExp.test(t);

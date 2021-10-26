@@ -42,8 +42,8 @@ class RegionTreeDataProvider {
             // Create Generally Typed Markers, so that we can
             // index them using languageID strings
             const GTMarkers = markers;
-            const startRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).start);
-            const endRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).end);
+            const startRegExp = new RegExp(((GTMarkersOverride === undefined || !(document.languageId in GTMarkersOverride)) ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).start);
+            const endRegExp = new RegExp(((GTMarkersOverride === undefined || !(document.languageId in GTMarkersOverride)) ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).end);
             const isRegionStart = (t) => startRegExp.test(t);
             const isRegionEnd = (t) => endRegExp.test(t);
             for (let i = 0; i < document.lineCount; i++) {
