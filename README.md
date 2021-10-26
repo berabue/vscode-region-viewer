@@ -30,3 +30,20 @@ Visual Basic|`#Region [name]`|`#End Region`
 Yaml|`#region [name]` or `# region [name]`|`#endregion` or `# endregion`
 
 The exact regular expressions can be found in this extension's [markers.json](./src/markers.json).
+
+## Add Language Overrides
+To add a language override you will need the language id and a regex for both the start and end substring that will reflect the region.
+While the extension view is open there will be an info icon that can be clicked. This will show a info dialog displaying the language id of the currently active document.
+Once the language id and the regex is ready, it is as simple as adding the following format to the settings.json file:
+
+```json
+{
+    /// Other settings
+    "region-viewer.markers-overrides": {
+        "[language-id]": {
+            "start": "^\\s*//\\s*#?region\\b(?<name>.*)", // <name> will be used to to give the region a name
+            "end": "^\\s*//\\s*#?endregion\\b"
+        },
+    }
+}
+```

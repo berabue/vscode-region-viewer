@@ -22,6 +22,14 @@ export function activate(context: vscode.ExtensionContext) {
 	{
 		regionTreeDataProvider.refresh();
 	}));
+
+	//
+	context.subscriptions.push(vscode.commands.registerCommand('region-viewer.activeDocumentLanguageId', () =>
+	{
+		var languageId = vscode.window.activeTextEditor?.document?.languageId ?? 'Unknown language';
+
+		vscode.window.showInformationMessage(`Language ID for active document: ${languageId}`);
+	}));
 }
 
 export function deactivate() {}

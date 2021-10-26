@@ -36,14 +36,27 @@ export class RegionTreeDataProvider implements vscode.TreeDataProvider<Dependenc
 		let treeRoot: Dependency[] = [];
 		let regionStack: Dependency[] = [];
 
-		if (document.languageId in markers)
+		let markersOverrides: {[language: string]: { "start": string, "end": string}}|undefined;
+		let configuration = vscode.workspace.getConfiguration();
+
+		try {
+			markersOverrides = configuration.get<{[language: string]: { "start": string, "end": string}}>('region-viewer.markers-overrides');
+		} catch (error) {
+			markersOverrides = undefined;
+			vscode.window.showWarningMessage('Failed to parse markers overrides for Region Viewer. Check documentation for correct format');
+		}
+
+
+		if (document.languageId in (markersOverrides ?? {}) || document.languageId in markers)
 		{
+			const GTMarkersOverride: {[language: string]: { "start": string, "end": string}}|undefined = markersOverrides;
+
 			// Create Generally Typed Markers, so that we can
 			// index them using languageID strings
 			const GTMarkers: {[language: string]: { "start": string, "end": string}} = markers;
 
-			const startRegExp = new RegExp(GTMarkers[document.languageId].start);
-			const endRegExp = new RegExp(GTMarkers[document.languageId].end);
+			const startRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).start);
+			const endRegExp = new RegExp((GTMarkersOverride === undefined ? GTMarkers[document.languageId] : GTMarkersOverride[document.languageId]).end);
 
 			const isRegionStart = (t: string) => startRegExp.test(t);
 			const isRegionEnd = (t: string) => endRegExp.test(t);

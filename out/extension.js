@@ -18,6 +18,12 @@ function activate(context) {
     context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(() => {
         regionTreeDataProvider.refresh();
     }));
+    //
+    context.subscriptions.push(vscode.commands.registerCommand('region-viewer.activeDocumentLanguageId', () => {
+        var _a, _b, _c;
+        var languageId = (_c = (_b = (_a = vscode.window.activeTextEditor) === null || _a === void 0 ? void 0 : _a.document) === null || _b === void 0 ? void 0 : _b.languageId) !== null && _c !== void 0 ? _c : 'Unknown language';
+        vscode.window.showInformationMessage(`Language ID for active document: ${languageId}`);
+    }));
 }
 exports.activate = activate;
 function deactivate() { }

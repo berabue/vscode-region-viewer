@@ -4,17 +4,17 @@
 	"publisher": "SantaCodes",
 	"displayName": "Region Viewer",
 	"description": "This extension allows you to print a list of regions in a document and select a region to navigate to the document's location.",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"engines": {
 		"vscode": "^1.44.0"
 	},
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/berabue/vscode-region-viewer.git"
+		"type": "git",
+		"url": "https://github.com/berabue/vscode-region-viewer.git"
 	},
 	"bugs": {
-	  "url": "https://github.com/berabue/vscode-region-viewer/issues",
-	  "email": "berabue@gmail.com"
+		"url": "https://github.com/berabue/vscode-region-viewer/issues",
+		"email": "berabue@gmail.com"
 	},
 	"categories": [
 		"Other"
@@ -24,15 +24,43 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"views": {
-		  "explorer": [
+		"configuration": [
 			{
-			  "id": "regionViewer",
-			  "name": "Region Viewer",
-			  "icon": "./images/hashtag.svg",
-			  "contextualTitle": "Region Viewer"
+				"title": "Region Viewer",
+				"properties": {
+					"region-viewer.markers-overrides": {
+						"type": "object",
+						"scope": "application"
+					}
+				}
 			}
-		  ]
+		],
+		"views": {
+			"explorer": [
+				{
+					"id": "regionViewer",
+					"name": "Region Viewer",
+					"icon": "./images/hashtag.svg",
+					"contextualTitle": "Region Viewer"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "region-viewer.activeDocumentLanguageId",
+				"title": "Active Document Language ID",
+				"category": "Region Viewer",
+				"icon": "$(extensions-info-message)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "region-viewer.activeDocumentLanguageId",
+					"when": "view == regionViewer",
+					"group": "navigation"
+				}
+			]
 		}
 	},
 	"scripts": {
