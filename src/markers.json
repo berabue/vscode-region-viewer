@@ -106,5 +106,9 @@
 	"delphi": {
 		"start": "^\\s*{\\s*\\$region\\b( '(?<name>.*?)')?}",
 		"end": "^\\s*{\\s*\\$endregion\\b}"
+	},
+	"jsonc": {
+		"start": "^\\s*\\/\\*\\s*#region\\b(?<name>.*)\\s*\\*\\/",
+		"end": "^\\s*\\/\\*\\s*#endregion\\b.*\\*\\/"
 	}
 }
