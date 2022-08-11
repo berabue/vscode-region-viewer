@@ -28,6 +28,7 @@ Shellscript |`#region [name]` or `# region [name]`|`#endregion` or `# endregion`
 TypeScript / JavaScript|`//#region [name]` |`//#endregion`
 Visual Basic|`#Region [name]`|`#End Region`
 Yaml|`#region [name]` or `# region [name]`|`#endregion` or `# endregion`
+JSONC|`/*#region [name]*/`|`/*#endregion*/`
 
 The exact regular expressions can be found in this extension's [markers.json](./src/markers.json).
 
