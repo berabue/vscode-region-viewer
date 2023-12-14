@@ -1,4 +1,8 @@
 {
+	"al": {
+		"start": "^\\s*(?://)?#region\\b(?<name>.*)",
+		"end": "^\\s*(?://)?#endregion\\b"
+	},
 	"bat": {
 		"start": "^\\s*(::\\s*|REM\\s+)#region(?<name>.*)",
 		"end": "^\\s*(::\\s*|REM\\s+)#endregion"

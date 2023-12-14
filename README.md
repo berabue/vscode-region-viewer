@@ -10,6 +10,7 @@ Region Viewer supports all languages which have [folding markers](https://code.v
 
 | Language | Region start | Region end |
 | --- | --- | --- |
+AL|`[//]#region [name]`|`[//]#endregion`
 Bat|`::#region [name]` or `REM #region [name]`|`::#endregion` or `REM #endregion`
 C#|`#region [name]`|`#endregion`
 C/C++|`#pragma region [name]`|`#pragma endregion`
